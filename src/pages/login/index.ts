@@ -3,24 +3,15 @@
  */
 
 import type { RouteRecordRaw } from 'vue-router'
-import Login from './Login.vue'
-import Register from './Register.vue'
+import AuthContainer from '@/pages/AuthContainer.vue'
 import ForgotPassword from './ForgotPassword.vue'
 
 export const loginRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
-    component: Login,
+    component: AuthContainer,
     meta: {
-      title: '登录',
-      requiresAuth: false,
-    },
-  },
-  {
-    path: '/login/register',
-    component: Register,
-    meta: {
-      title: '注册',
+      title: '登录/注册',
       requiresAuth: false,
     },
   },
@@ -33,6 +24,4 @@ export const loginRoutes: RouteRecordRaw[] = [
     },
   },
 ]
-
-export default loginRoutes
 

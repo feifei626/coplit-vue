@@ -55,7 +55,7 @@
         <p>立即登录或注册账户，体验完整功能</p>
         <div class="cta-buttons">
           <router-link to="/login" class="btn btn-primary">登录</router-link>
-          <router-link to="/login/register" class="btn btn-secondary">注册</router-link>
+          <router-link to="/login" class="btn btn-secondary">注册</router-link>
         </div>
       </section>
     </main>
