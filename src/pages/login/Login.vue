@@ -28,6 +28,15 @@
       <div v-if="errorMessage" class="error-message">
         {{ errorMessage }}
       </div>
+      <div class="login-footer">
+        <router-link to="/login/forgot-password" class="link">
+          忘记密码？
+        </router-link>
+        <span class="divider">|</span>
+        <router-link to="/login/register" class="link">
+          注册账户
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -51,6 +60,8 @@ export default {
         });
         // TODO: 实现实际的登录逻辑
         this.errorMessage = '';
+        // 可选：重定向到主页
+        // this.$router.push('/');
       } else {
         this.errorMessage = '用户名和密码不能为空';
       }
@@ -133,5 +144,29 @@ export default {
   padding: 10px;
   background-color: #ffe0e0;
   border-radius: 4px;
+}
+
+.login-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.link {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+.divider {
+  color: #ddd;
 }
 </style>
