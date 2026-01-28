@@ -25,3 +25,5 @@ export const loginRoutes: RouteRecordRaw[] = [
   },
 ]
 
+export default loginRoutes
+
