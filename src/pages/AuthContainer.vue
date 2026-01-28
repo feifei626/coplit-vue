@@ -296,7 +296,7 @@ const handleRegister = (): void => {
   font-weight: 500;
   color: #999;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 
@@ -316,6 +316,18 @@ const handleRegister = (): void => {
   right: 0;
   height: 2px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  animation: expandWidth 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes expandWidth {
+  from {
+    transform: scaleX(0);
+    transform-origin: center;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: center;
+  }
 }
 
 .tab-content {
@@ -325,13 +337,13 @@ const handleRegister = (): void => {
 }
 
 .tab-pane {
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(30px);
   }
   to {
     opacity: 1;
@@ -341,17 +353,17 @@ const handleRegister = (): void => {
 
 .slide-enter-active,
 .slide-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .slide-enter-from {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateX(30px);
 }
 
 .slide-leave-to {
   opacity: 0;
-  transform: translateX(-20px);
+  transform: translateX(-30px);
 }
 
 .tab-pane h1 {
