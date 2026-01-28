@@ -82,115 +82,109 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ForgotPassword',
-  data() {
-    return {
-      email: '',
-      resetCode: '',
-      newPassword: '',
-      confirmPassword: '',
-      emailSent: false,
-      resetCodeVerified: false,
-      isLoading: false,
-      errorMessage: '',
-      successMessage: '',
-    };
-  },
-  methods: {
-    handleSendReset() {
-      // 验证邮箱格式
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(this.email)) {
-        this.errorMessage = '请输入有效的邮箱地址';
-        return;
-      }
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-      this.isLoading = true;
-      this.errorMessage = '';
-      this.successMessage = '';
+const router = useRouter()
 
-      // 模拟发送邮件请求
-      setTimeout(() => {
-        console.log('发送重置密码邮件至:', this.email);
-        this.emailSent = true;
-        this.successMessage = `重置链接已发送至 ${this.email}`;
-        this.isLoading = false;
-      }, 1500);
-    },
-    handleVerifyCode() {
-      if (!this.resetCode.trim()) {
-        this.errorMessage = '验证码不能为空';
-        return;
-      }
+const email = ref('')
+const resetCode = ref('')
+const newPassword = ref('')
+const confirmPassword = ref('')
+const emailSent = ref(false)
+const resetCodeVerified = ref(false)
+const isLoading = ref(false)
+const errorMessage = ref('')
+const successMessage = ref('')
 
-      // 简单的验证码验证逻辑
-      if (this.resetCode.length < 4) {
-        this.errorMessage = '验证码不正确';
-        return;
-      }
+const handleSendReset = (): void => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email.value)) {
+    errorMessage.value = '请输入有效的邮箱地址'
+    return
+  }
 
-      this.isLoading = true;
-      this.errorMessage = '';
-      this.successMessage = '';
+  isLoading.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
 
-      // 模拟验证验证码
-      setTimeout(() => {
-        console.log('验证验证码:', this.resetCode);
-        this.resetCodeVerified = true;
-        this.successMessage = '验证成功，请输入新密码';
-        this.isLoading = false;
-      }, 1000);
-    },
-    handleResetPassword() {
-      if (!this.newPassword.trim() || !this.confirmPassword.trim()) {
-        this.errorMessage = '密码不能为空';
-        return;
-      }
+  setTimeout(() => {
+    console.log('发送重置密码邮件至:', email.value)
+    emailSent.value = true
+    successMessage.value = `重置链接已发送至 ${email.value}`
+    isLoading.value = false
+  }, 1500)
+}
 
-      if (this.newPassword.length < 6) {
-        this.errorMessage = '密码长度至少为 6 位';
-        return;
-      }
+const handleVerifyCode = (): void => {
+  if (!resetCode.value.trim()) {
+    errorMessage.value = '验证码不能为空'
+    return
+  }
 
-      if (this.newPassword !== this.confirmPassword) {
-        this.errorMessage = '两次输入的密码不一致';
-        return;
-      }
+  if (resetCode.value.length < 4) {
+    errorMessage.value = '验证码不正确'
+    return
+  }
 
-      this.isLoading = true;
-      this.errorMessage = '';
-      this.successMessage = '';
+  isLoading.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
 
-      // 模拟重置密码请求
-      setTimeout(() => {
-        console.log('密码已重置:', {
-          email: this.email,
-          newPassword: this.newPassword,
-        });
-        this.successMessage = '密码重置成功！请重新登录。';
-        
-        // 2 秒后跳转到登录页
-        setTimeout(() => {
-          this.$router.push('/login');
-        }, 2000);
-        
-        this.isLoading = false;
-      }, 1500);
-    },
-    resetStep() {
-      this.emailSent = false;
-      this.resetCodeVerified = false;
-      this.email = '';
-      this.resetCode = '';
-      this.newPassword = '';
-      this.confirmPassword = '';
-      this.errorMessage = '';
-      this.successMessage = '';
-    },
-  },
-};
+  setTimeout(() => {
+    console.log('验证验证码:', resetCode.value)
+    resetCodeVerified.value = true
+    successMessage.value = '验证成功，请输入新密码'
+    isLoading.value = false
+  }, 1000)
+}
+
+const handleResetPassword = (): void => {
+  if (!newPassword.value.trim() || !confirmPassword.value.trim()) {
+    errorMessage.value = '密码不能为空'
+    return
+  }
+
+  if (newPassword.value.length < 6) {
+    errorMessage.value = '密码长度至少为 6 位'
+    return
+  }
+
+  if (newPassword.value !== confirmPassword.value) {
+    errorMessage.value = '两次输入的密码不一致'
+    return
+  }
+
+  isLoading.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  setTimeout(() => {
+    console.log('密码已重置:', {
+      email: email.value,
+      newPassword: newPassword.value,
+    })
+    successMessage.value = '密码重置成功！请重新登录。'
+
+    setTimeout(() => {
+      router.push('/login')
+    }, 2000)
+
+    isLoading.value = false
+  }, 1500)
+}
+
+const resetStep = (): void => {
+  emailSent.value = false
+  resetCodeVerified.value = false
+  email.value = ''
+  resetCode.value = ''
+  newPassword.value = ''
+  confirmPassword.value = ''
+  errorMessage.value = ''
+  successMessage.value = ''
+}
 </script>
 
 <style scoped>

@@ -65,107 +65,117 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Register',
-  data() {
-    return {
-      form: {
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      },
-      errorMessage: '',
-      successMessage: '',
-    };
-  },
-  methods: {
-    handleRegister() {
-      // 验证表单
-      if (!this.validateForm()) {
-        return;
-      }
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-      if (this.form.password !== this.form.confirmPassword) {
-        this.errorMessage = '两次输入的密码不一致';
-        this.successMessage = '';
-        return;
-      }
+const router = useRouter()
 
-      // 验证邮箱格式
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(this.form.email)) {
-        this.errorMessage = '请输入有效的邮箱地址';
-        this.successMessage = '';
-        return;
-      }
+interface RegisterForm {
+  username: string
+  email: string
+  password: string
+  confirmPassword: string
+}
 
-      console.log('注册成功', {
-        username: this.form.username,
-        email: this.form.email,
-        password: this.form.password,
-      });
+const form = ref<RegisterForm>({
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+})
 
-      this.errorMessage = '';
-      this.successMessage = '注册成功！请登录您的账户。';
-      
-      // 清空表单
-      this.form = {
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      };
+const errorMessage = ref('')
+const successMessage = ref('')
 
-      // 可选：3 秒后跳转到登录页
-      setTimeout(() => {
-        this.$router.push('/login');
-      }, 2000);
-    },
-    validateForm() {
-      const { username, email, password, confirmPassword } = this.form;
-      
-      if (!username.trim()) {
-        this.errorMessage = '用户名不能为空';
-        this.successMessage = '';
-        return false;
-      }
+const validateForm = (): boolean => {
+  const { username, email, password, confirmPassword } = form.value
 
-      if (username.length < 4 || username.length > 20) {
-        this.errorMessage = '用户名长度必须在 4-20 字符之间';
-        this.successMessage = '';
-        return false;
-      }
+  if (!username.trim()) {
+    errorMessage.value = '用户名不能为空'
+    successMessage.value = ''
+    return false
+  }
 
-      if (!email.trim()) {
-        this.errorMessage = '邮箱不能为空';
-        this.successMessage = '';
-        return false;
-      }
+  if (username.length < 4 || username.length > 20) {
+    errorMessage.value = '用户名长度必须在 4-20 字符之间'
+    successMessage.value = ''
+    return false
+  }
 
-      if (!password.trim()) {
-        this.errorMessage = '密码不能为空';
-        this.successMessage = '';
-        return false;
-      }
+  if (!email.trim()) {
+    errorMessage.value = '邮箱不能为空'
+    successMessage.value = ''
+    return false
+  }
 
-      if (password.length < 6) {
-        this.errorMessage = '密码长度至少为 6 位';
-        this.successMessage = '';
-        return false;
-      }
+  if (!password.trim()) {
+    errorMessage.value = '密码不能为空'
+    successMessage.value = ''
+    return false
+  }
 
-      if (!confirmPassword.trim()) {
-        this.errorMessage = '确认密码不能为空';
-        this.successMessage = '';
-        return false;
-      }
+  if (password.length < 6) {
+    errorMessage.value = '密码长度至少为 6 位'
+    successMessage.value = ''
+    return false
+  }
 
-      return true;
-    },
-  },
-};
+  if (!confirmPassword.trim()) {
+    errorMessage.value = '确认密码不能为空'
+    successMessage.value = ''
+    return false
+  }
+
+  return true
+}
+
+const handleRegister = (): void => {
+  if (!validateForm()) {
+    return
+  }
+
+  if (form.value.password !== form.value.confirmPassword) {
+    errorMessage.value = '两次输入的密码不一致'
+    successMessage.value = ''
+    return
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(form.value.email)) {
+    errorMessage.value = '请输入有效的邮箱地址'
+    successMessage.value = ''
+    return
+  }
+
+  interface RegisterPayload {
+    username: string
+    email: string
+    password: string
+  }
+
+  const payload: RegisterPayload = {
+    username: form.value.username,
+    email: form.value.email,
+    password: form.value.password,
+  }
+
+  console.log('注册成功', payload)
+
+  errorMessage.value = ''
+  successMessage.value = '注册成功！请登录您的账户。'
+
+  form.value = {
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  }
+
+  setTimeout(() => {
+    router.push('/login')
+  }, 2000)
+}
 </script>
 
 <style scoped>

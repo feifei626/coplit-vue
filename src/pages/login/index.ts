@@ -2,11 +2,12 @@
  * 登录模块路由配置
  */
 
-import Login from './Login.vue';
-import Register from './Register.vue';
-import ForgotPassword from './ForgotPassword.vue';
+import type { RouteRecordRaw } from 'vue-router'
+import Login from './Login.vue'
+import Register from './Register.vue'
+import ForgotPassword from './ForgotPassword.vue'
 
-export const loginRoutes = [
+export const loginRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     component: Login,
@@ -31,6 +32,7 @@ export const loginRoutes = [
       requiresAuth: false,
     },
   },
-];
+]
 
-export default loginRoutes;
+export default loginRoutes
+

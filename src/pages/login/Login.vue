@@ -41,33 +41,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Login',
-  data() {
-    return {
-      username: '',
-      password: '',
-      errorMessage: '',
-    };
-  },
-  methods: {
-    handleLogin() {
-      if (this.username && this.password) {
-        console.log('登录成功', {
-          username: this.username,
-          password: this.password,
-        });
-        // TODO: 实现实际的登录逻辑
-        this.errorMessage = '';
-        // 可选：重定向到主页
-        // this.$router.push('/');
-      } else {
-        this.errorMessage = '用户名和密码不能为空';
-      }
-    },
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const username = ref('')
+const password = ref('')
+const errorMessage = ref('')
+
+interface LoginPayload {
+  username: string
+  password: string
+}
+
+const handleLogin = (): void => {
+  if (username.value && password.value) {
+    const payload: LoginPayload = {
+      username: username.value,
+      password: password.value,
+    }
+    console.log('登录成功', payload)
+    errorMessage.value = ''
+    // TODO: 实现实际的登录逻辑
+    // this.$router.push('/')
+  } else {
+    errorMessage.value = '用户名和密码不能为空'
+  }
+}
 </script>
 
 <style scoped>
