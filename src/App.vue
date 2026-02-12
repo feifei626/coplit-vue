@@ -1,16 +1,21 @@
 <template>
-  <div id="app">
-    <h1>Hello Vue 3 + Vite</h1>
-    <p>Welcome to your new project.</p>
-  </div>
+  <router-view />
 </template>
 
-<script>
-export default {
-  name: 'App'
-}
+<script setup lang="ts">
+// Vue 3 + TypeScript 应用入口
 </script>
 
 <style>
-body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 2rem; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-size: 14px;
+  color: #333;
+}
 </style>

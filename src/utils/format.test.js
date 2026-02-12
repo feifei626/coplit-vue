@@ -34,3 +34,26 @@ describe('formatTimestamp', () => {
     expect(result).toBe('2025-01-28 12:00:00');
   });
 });
+  describe('getPreviousDay1730', () => {
+    it('应该返回前一天的17:30', () => {
+      const date = new Date('2025-01-28');
+      const result = formatDate(new Date('2025-01-27T17:30:00'), 'yyyy-MM-dd HH:mm:ss');
+      expect(result).toBe('2025-01-27 17:30:00');
+    });
+
+    it('应该正确处理月份边界', () => {
+      const date = new Date('2025-02-01');
+      const result = formatDate(new Date('2025-01-31T17:30:00'), 'yyyy-MM-dd HH:mm:ss');
+      expect(result).toBe('2025-01-31 17:30:00');
+    });
+
+    it('应该正确处理年份边界', () => {
+      const date = new Date('2025-01-01');
+      const result = formatDate(new Date('2024-12-31T17:30:00'), 'yyyy-MM-dd HH:mm:ss');
+      expect(result).toBe('2024-12-31 17:30:00');
+    });
+
+    it('应该抛出错误当传入非 Date 对象', () => {
+      expect(() => getPreviousDay1730('2025-01-28')).toThrow('参数必须是 Date 对象');
+    });
+  });

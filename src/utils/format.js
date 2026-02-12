@@ -47,3 +47,22 @@ export function formatDate(date, format = 'yyyy-MM-dd') {
 export function formatTimestamp(timestamp, format = 'yyyy-MM-dd HH:mm:ss') {
   return formatDate(new Date(timestamp), format);
 }
+
+// TODO:@copilot 新建函数 返回前一天的17：30
+/**
+ * 返回前一天的17：30
+ * @param {Date} date - 日期对象
+ * @returns {string} 前一天的17：30字符串
+ */
+export function getPreviousDay1730(date) {
+  if (!(date instanceof Date)) {
+    throw new Error('参数必须是 Date 对象');
+  }
+
+  const previousDay = new Date(date);
+  previousDay.setDate(date.getDate() - 1);
+  previousDay.setHours(17, 30, 0, 0);
+
+  return formatDate(previousDay, 'yyyy-MM-dd HH:mm:ss');
+}
+
